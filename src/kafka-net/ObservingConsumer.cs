@@ -26,7 +26,7 @@ namespace KafkaNet
         {
         }
 
-        public IObservable<Message> Consume(CancellationToken? cancellationToken = null)
+        public IObservable<Message> Observe()
         {
             Options.Log.DebugFormat("Consumer: Beginning consumption of topic: {0}", Options.Topic);
             EnsurePartitionPollingThreads();
