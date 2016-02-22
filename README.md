@@ -1,4 +1,4 @@
-kafka-net
+kafka-net-rx
 =========
 
 Native C# client for Apache Kafka.  
@@ -23,11 +23,11 @@ client.SendMessageAsync("TestHarness", new[] { new Message("hello world")}).Wait
 
 using (client) { }
 ```
-##### Consumer
+##### BlockingConsumer
 ```sh
 var options = new KafkaOptions(new Uri("http://SERVER1:9092"), new Uri("http://SERVER2:9092"));
 var router = new BrokerRouter(options);
-var consumer = new Consumer(new ConsumerOptions("TestHarness", router));
+var consumer = new BlockingConsumer(new ConsumerOptions("TestHarness", router));
 
 //Consume returns a blocking IEnumerable (ie: never ending stream)
 foreach (var message in consumer.Consume())
@@ -35,6 +35,20 @@ foreach (var message in consumer.Consume())
     Console.WriteLine("Response: P{0},O{1} : {2}", 
         message.Meta.PartitionId, message.Meta.Offset, message.Value);  
 }
+```
+
+##### ObservableConsumer
+```sh
+var options = new KafkaOptions(new Uri("http://SERVER1:9092"), new Uri("http://SERVER2:9092"));
+var router = new BrokerRouter(options);
+var consumer = new ObservableConsumer(new ConsumerOptions("TestHarness", router));
+
+//Consume returns a nonblocking IObservable
+                consumer.Observe().Subscribe(
+                    message => Console.Write("Response: P{0},O{1} : {2}", message.Meta.PartitionId, message.Meta.Offset, message.Value),
+                    ex => Console.WriteLine("Exception: " + ex.ToString()),
+                    () => Console.WriteLine("Stream closed")
+                    );
 ```
 
 ##### TestHarness
