@@ -43,7 +43,7 @@ var options = new KafkaOptions(new Uri("http://SERVER1:9092"), new Uri("http://S
 var router = new BrokerRouter(options);
 var consumer = new ObservableConsumer(new ConsumerOptions("TestHarness", router));
 
-//Consume returns a nonblocking IObservable
+//Observe returns a nonblocking IObservable
 consumer.Observe().Subscribe(
     message => Console.Write("Response: P{0},O{1} : {2}", message.Meta.PartitionId, message.Meta.Offset, message.Value),
     ex => Console.WriteLine("Exception: " + ex.ToString()),
