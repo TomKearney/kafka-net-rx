@@ -53,7 +53,7 @@ namespace kafka_tests.Integration
 
                 var offsets = producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationTopic).Result;
 
-                using (var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router),
+                using (var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router),
                     offsets.Select(x => new OffsetPosition(x.PartitionId, x.Offsets.Max())).ToArray()))
                 {
 
@@ -86,7 +86,7 @@ namespace kafka_tests.Integration
                 var offsets = producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationTopic).Result
                     .Select(x => new OffsetPosition(x.PartitionId, x.Offsets.Max())).ToArray();
 
-                using (var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router), offsets))
+                using (var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router), offsets))
                 {
                     for (int i = 0; i < 20; i++)
                     {
@@ -127,7 +127,7 @@ namespace kafka_tests.Integration
                 var startOffsets = producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationTopic).Result
                     .Select(x => new OffsetPosition(x.PartitionId, x.Offsets.Max())).ToArray();
 
-                using (var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router), startOffsets))
+                using (var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router), startOffsets))
                 {
 
                     for (int i = 0; i < 20; i++)
@@ -161,7 +161,7 @@ namespace kafka_tests.Integration
                 var offsets = producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationTopic).Result;
 
                 //create consumer with buffer size of 1 (should block upstream)
-                using (var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router) { ConsumerBufferSize = 1 },
+                using (var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, router) { ConsumerBufferSize = 1 },
                     offsets.Select(x => new OffsetPosition(x.PartitionId, x.Offsets.Max())).ToArray()))
                 {
 
@@ -194,7 +194,7 @@ namespace kafka_tests.Integration
                 var offsets = await producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationTopic).ConfigureAwait(false);
 
                 using (var consumerRouter = new BrokerRouter(options))
-                using (var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, consumerRouter),
+                using (var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationTopic, consumerRouter),
                      offsets.Select(x => new OffsetPosition(x.PartitionId, x.Offsets.Max())).ToArray()))
                 {
                     Console.WriteLine("Sending {0} test messages", expectedCount);

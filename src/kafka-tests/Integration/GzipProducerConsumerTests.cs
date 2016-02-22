@@ -69,7 +69,7 @@ namespace kafka_tests.Integration
 
             var offsets = producer.GetTopicOffsetAsync(IntegrationConfig.IntegrationCompressionTopic).Result;
 
-            var consumer = new Consumer(new ConsumerOptions(IntegrationConfig.IntegrationCompressionTopic, router),
+            var consumer = new BlockingConsumer(new ConsumerOptions(IntegrationConfig.IntegrationCompressionTopic, router),
                 offsets.Select(x => new OffsetPosition(x.PartitionId, 0)).ToArray());
 
             var results = consumer.Consume().Take(3).ToList();

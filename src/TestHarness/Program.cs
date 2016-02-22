@@ -23,7 +23,7 @@ namespace TestHarness
             //start an out of process thread that runs a consumer that will write all received messages to the console
             Task.Run(() =>
             {
-                var consumer = new Consumer(new ConsumerOptions(topicName, new BrokerRouter(options)) { Log = new ConsoleLog() });
+                var consumer = new BlockingConsumer(new ConsumerOptions(topicName, new BrokerRouter(options)) { Log = new ConsoleLog() });
                 foreach (var data in consumer.Consume())
                 {
                     Console.WriteLine("Response: P{0},O{1} : {2}", data.Meta.PartitionId, data.Meta.Offset, data.Value.ToUtf8String());

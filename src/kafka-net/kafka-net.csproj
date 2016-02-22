@@ -35,6 +35,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +65,8 @@
     <Compile Include="Common\AsyncCollection.cs" />
     <Compile Include="Common\ConcurrentCircularBuffer.cs" />
     <Compile Include="Common\KafkaMessagePacker.cs" />
+    <Compile Include="ConsumerBase.cs" />
+    <Compile Include="ObservingConsumer.cs" />
     <Compile Include="Statistics\StatisticsTracker.cs" />
     <Compile Include="Default\ConsoleLog.cs" />
     <Compile Include="Default\DefaultKafkaConnectionFactory.cs" />
@@ -56,7 +74,7 @@
     <Compile Include="Interfaces\IKafkaTcpSocket.cs" />
     <Compile Include="Model\BrokerRoute.cs" />
     <Compile Include="Common\ScheduledTimer.cs" />
-    <Compile Include="Consumer.cs" />
+    <Compile Include="BlockingConsumer.cs" />
     <Compile Include="Interfaces\IKafkaConnection.cs" />
     <Compile Include="Interfaces\IBrokerRouter.cs" />
     <Compile Include="MetadataQueries.cs" />
@@ -92,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="kafka-net.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\net45\" />

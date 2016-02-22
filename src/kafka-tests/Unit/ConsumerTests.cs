@@ -28,7 +28,7 @@ namespace kafka_tests.Unit
 
             var options = CreateOptions(router);
 
-            using (var consumer = new Consumer(options))
+            using (var consumer = new BlockingConsumer(options))
             {
                 var tokenSrc = new CancellationTokenSource();
 
@@ -53,7 +53,7 @@ namespace kafka_tests.Unit
             var router = routerProxy.Create();
             var options = CreateOptions(router);
             options.PartitionWhitelist = new List<int> { 0 };
-            using (var consumer = new Consumer(options))
+            using (var consumer = new BlockingConsumer(options))
             {
                 var test = consumer.Consume();
 
@@ -75,7 +75,7 @@ namespace kafka_tests.Unit
             var options = CreateOptions(router);
             options.PartitionWhitelist = new List<int>();
 
-            using (var consumer = new Consumer(options))
+            using (var consumer = new BlockingConsumer(options))
             {
                 var test = consumer.Consume();
 
@@ -97,7 +97,7 @@ namespace kafka_tests.Unit
             var router = routerProxy.Create();
             var options = CreateOptions(router);
             options.PartitionWhitelist = new List<int>();
-            using (var consumer = new Consumer(options))
+            using (var consumer = new BlockingConsumer(options))
             {
                 var test = consumer.Consume();
                 TaskTest.WaitFor(() => consumer.ConsumerTaskCount >= 2);
@@ -115,7 +115,7 @@ namespace kafka_tests.Unit
             var router = routerProxy.Create();
             var options = CreateOptions(router);
             options.PartitionWhitelist = new List<int>();
-            using (var consumer = new Consumer(options))
+            using (var consumer = new BlockingConsumer(options))
             {
                 var test = consumer.Consume();
                 TaskTest.WaitFor(() => consumer.ConsumerTaskCount >= 2);
@@ -128,7 +128,7 @@ namespace kafka_tests.Unit
         public void EnsureConsumerDisposesRouter()
         {
             var router = new MoqMockingKernel().GetMock<IBrokerRouter>();
-            var consumer = new Consumer(CreateOptions(router.Object));
+            var consumer = new BlockingConsumer(CreateOptions(router.Object));
             using (consumer) { }
             router.Verify(x => x.Dispose(), Times.Once());
         }
@@ -142,7 +142,7 @@ namespace kafka_tests.Unit
             var options = CreateOptions(router);
             options.PartitionWhitelist = new List<int>();
 
-            var consumer = new Consumer(options);
+            var consumer = new BlockingConsumer(options);
             using (consumer)
             {
                 var test = consumer.Consume();
